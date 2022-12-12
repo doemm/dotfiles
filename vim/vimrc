@@ -1,0 +1,147 @@
+set nocompatible              " required to be iMproved
+filetype off                  " required
+
+" automatic installation of vim-plug
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" specify a directory for plugins
+call plug#begin('~/.vim/plugged')
+
+" make sure you use single quotes
+
+" customized color scheme
+Plug 'domsupamoe/jellybeans.vim'
+
+" plugins
+Plug 'junegunn/fzf', {'do': {->fzf#install()}}
+Plug 'junegunn/fzf.vim'
+
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'preservim/nerdcommenter'
+Plug 'tpope/vim-surround'
+Plug 'maxmellon/vim-jsx-pretty'
+Plug 'posva/vim-vue'
+
+" netrw is hard to use
+Plug 'preservim/nerdtree'
+
+" initialize plugin system
+call plug#end()
+
+colorscheme jellybeans
+
+syntax enable
+highlight Normal  ctermbg=none
+highlight NonText ctermbg=none
+highlight LineNr  ctermbg=none
+
+" leader
+map <Space> <Leader>
+
+set autochdir
+set encoding=utf-8  " set encodign to utf-8 to browse through unicode
+set backspace=2     " backspace deletes like most programs in insert mode
+set nobackup
+set nowritebackup
+set noswapfile
+set history=50
+set ruler           " show the cursor position all the time
+set mouse=n         " necessary to use mouse as cursor
+set showcmd         " display incomplete commands
+set incsearch       " do incremental searching
+set laststatus=2    " always display the status line
+set autowrite       " automatically :write before running commands
+set guicursor=      " fuck neovim change cursor style
+set clipboard+=unnamedplus     " use clipboard in neovim
+set ignorecase            " search will ignore all cases
+set smartcase             " type Uppercase to be case sensitive
+set foldmethod=indent     " set fold method to indent
+set foldlevel=99          " set default to unfold
+
+" numbers
+set number relativenumber
+set numberwidth=5
+
+" toggle hybrid line numbers
+nnoremap <C-n> :set nu! rnu!<CR>
+
+" clipboard copy/paste
+nnoremap <Leader>y "*y
+nnoremap <Leader>p "*p
+" select all
+nnoremap <C-a> ggVG
+
+" easy multiple indents
+vnoremap < <gv
+vnoremap > >gv
+
+" resovle conflict block select
+nnoremap <C-q> <C-v>
+" map capitalized u as redo
+nnoremap U :redo<CR>
+" clear highlight after search
+nnoremap <Esc> :noh<CR>
+
+" toggle netrw explorer 
+nnoremap <C-e> :NERDTreeToggle<CR>
+" remove help header
+let NERDTreeMinimalUI=1
+" set nerdtree as default file browser
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 &&
+      \ isdirectory(argv()[0]) &&
+      \ !exists("s:std_in") |
+      \ exe 'NERDTree' argv()[0] |
+      \ wincmd p | ene |
+      \ exe 'cd '.argv()[0] | endif
+" close vim when only nerdtree window left
+autocmd bufenter * if (winnr("$") == 1 &&
+      \ exists("b:NERDTree") &&
+      \ b:NERDTree.isTabTree()) | q | endif
+
+let g:netrw_banner=0
+let g:netrw_liststyle=3
+
+" use fzf for searching
+nnoremap <C-f> :GFiles<CR>
+nnoremap <S-f> :Files<CR>
+" hold shift too long
+command! W w
+command! Q q
+
+" softtabs, 2 spaces
+set tabstop=2
+set shiftwidth=2
+set smarttab
+set shiftround
+set expandtab
+
+" fuck 4 spaces, 2 spaces is the way
+let g:rust_recommended_style=0
+
+" turn 'paste' on and off
+set pastetoggle=<F2>
+
+" quicker window movement
+nnoremap <C-j> <C-w>j
+nnoremap <C-k> <C-w>k
+nnoremap <C-h> <C-w>h
+nnoremap <C-l> <C-w>l
+
+nnoremap <C-c> <C-w>c
+
+" configs for nerdcommenter
+let g:NERDCreateDefaultMappings=0
+
+let g:NERDSpaceDelims=1
+let g:NERDCompactSexyComs=1
+let g:NERDDefaultAlign='left'
+let g:NERDTrimTrailingWhitespace=1
+let g:NERDToggleCheckAllLines=1
+
+nmap <C-_> <Plug>NERDCommenterToggle
+vmap <C-_> <Plug>NERDCommenterToggle

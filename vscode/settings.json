@@ -1,0 +1,10 @@
+{
+    "vim.handleKeys": {
+        "<C-f>": false,
+        "<C-a>": false
+    },
+    "files.insertFinalNewline": true,
+    "editor.wordWrap": "on",
+    "editor.tabSize": 2,
+    "editor.cursorStyle": "block"
+}
