@@ -30,10 +30,19 @@ plugins=(
 # path to oh-my-zsh installation
 source $ZSH/oh-my-zsh.sh
 
-# require to install nvm first
+# install nvm and node for lsp
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+if [ ! -d "$NVM" ]; then
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/master/install.sh | bash
+  source $NVM/nvm.sh && nvm install node
+fi
+
+# install tmux plugin manager
+export TMUX="$HOME/.tmux"
+if [ ! -d "$TMUX" ]; then
+  mkdir -p $HOME/.tmux/plugins && \
+  git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+fi
 
 # replace alias modern tools
 if type exa > /dev/null 2>&1; then
